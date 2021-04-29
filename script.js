@@ -17,13 +17,10 @@ var side = 50;
 var smallX = 0;
 var smallY = 0;
 var target = 25;
-var counttime = 50;
+var counttime = 30;
 var setcount = null;
-var down = false;
-var up = false;
-var right = false;
-var left = false;
-
+var sound=new Audio('mixkit-small-crowd-clapping-3035.wav');
+var sound1=new Audio('mixkit-unlock-game-notification-253.wav');
 
 
 
@@ -46,7 +43,7 @@ window.onkeydown = function (event) {
 
 function starting() {
     // Reduce the countdown timer ever second
-    setcount = setInterval(function () { counttime--; }, 1000)
+    setcount = setInterval(function () { counttime--; }, 2000)
     // Put the target at a random 
     targetDisplay();
     // Kick off the Animation loop
@@ -61,21 +58,20 @@ function targetDisplay() {
 }
 
 
+
 function gameOver() {
     //countttime stop;
     clearInterval(setcount);
+    sound.play();
     //display game over 
     remove();
     ctx.fillStyle = "#000000";
     ctx.font = '24px Arial';
     ctx.textAlign = 'center';
     ctx.fillText("your score is:" + Score, innerWidth / 2, innerHeight / 2);
-    ctx.font = "50px Arial";
-    ctx.fillStyle = "#000000"
-    ctx.fillText("Thank You!", 645, (innerHeight / 2) + 78);
     ctx.font = "20px Arial";
     ctx.fillStyle = "green"
-    ctx.fillText("Do you want to continue press (F5)", 645, (innerHeight / 2) + 118);
+    ctx.fillText("Do you want to continue press (F5)", 645, (innerHeight / 2) + 78);
 }
 //clear the canvas 
 function remove() {
@@ -106,6 +102,7 @@ function Animation() {
     if ((range(smallX, x, x + side) || range(smallX + target, x, x + side)) && ((range(smallY, y, y + side) || range(smallY + target, y, y + side)))){
             // make the target
             targetDisplay();
+            sound1.play();
             radius = radius + 5;
             //Score increasing.
             Score++;
@@ -114,10 +111,10 @@ function Animation() {
     //hit the danger square
     if (counttime % 5 === 0) {
         //danger square
-        var dangerX = 100;
-        var dangerY = 80;
+        var dangerX = 500;
+        var dangerY = 90;
         var sqr = 25;
-        if((range(dangerX, x, x + side) || range(dangerX + sqr, x, x + sqr)) && ((range(dangerY, y, y + side) || range(dangerY + sqr, x, x + sqr)))) {
+        if((range(dangerX, x, x + side) || range(dangerX + sqr, x, x + side)) && ((range(dangerY, y, y + side) || range(dangerY + sqr, x, x + side)))) {
                 alert("ball touch the danger!");
                 gameOver();
         }
