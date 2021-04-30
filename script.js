@@ -189,8 +189,11 @@ function Animation() {
     ctx.fillStyle = "black";
     ctx.font = '34px Arial';
     ctx.fillText('Goal Red: ' + Score, 30, 54);
-    ctx.fillText('Goal Yellow:' + ScoreRandom, 990, 54);
+    ctx.fillText('Goal Yellow:' + ScoreRandom, 990, 54);    
     ctx.fillText('Time count: ' + counttime, 490, 54);
+    ctx.font='11px Arial'
+    ctx.fillText('up:W   down:X   left:A   right:D',1000,70);
+    ctx.fillText('use Arrow key to move redball',50,70)
     if (counttime <= 0) {
         gameOver();
     }
