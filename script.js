@@ -158,7 +158,7 @@ function Animation() {
             alert("red ball touch the danger!");
             gameOver();
         }
-        if (((dangerX > randomx && dangerX < (randomx + side)) || ((dangerX + sqr) > x && dangerX < (randomx + side))) && ((dangerY > randomy && dangerY < (randomy + side)) || ((dangerY + sqr) > y && dangerY < (randomy + side)))) {
+        if (((dangerX > randomx && dangerX < (randomx + side)) || ((dangerX + sqr) > randomx && dangerX < (randomx + side))) && ((dangerY > randomy && dangerY < (randomy + side)) || ((dangerY + sqr) > y && dangerY < (randomy + side)))) {
             alert("yellow ball touch the danger!");
             gameOver();
         }
