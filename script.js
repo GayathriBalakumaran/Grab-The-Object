@@ -100,17 +100,6 @@ function remove() {
     ctx.fillStyle = multicolor;
     ctx.fillRect(0, 0, innerWidth, innerHeight);
 }
-function random() {
-    remove();
-    if (randomx > innerWidth - radius1 || randomx < radius1) {
-        rx = -rx;
-    }
-    if (randomy > innerHeight - radius1 || randomy < radius1) {
-        rx = -rx;
-    }
-    randomx = rx;
-    randomy = ry;
-}
 
 function Animation() {
     remove();
