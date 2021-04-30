@@ -90,6 +90,7 @@ function gameOver() {
     ctx.fillStyle = "green"
     ctx.fillText("Do you want to continue press (F5)", 679, (innerHeight / 2) + 98);
 }
+
 //clear the canvas 
 function remove() {
     var multicolor = ctx.createLinearGradient(0, 0, innerWidth, 0);
