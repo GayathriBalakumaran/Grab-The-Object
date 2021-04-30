@@ -103,7 +103,7 @@ function remove() {
 
 function Animation() {
     remove();
-    // ball within the bounds 
+    // red ball within the bounds 
     if (y + side > innerHeight) {
         y = innerHeight - side;
     }
@@ -116,6 +116,20 @@ function Animation() {
     if (x + side > innerWidth) {
         x = innerWidth - side;
     }
+    //yellow ball within the bound
+    if(randomy +side >innerHeight){
+        randomy=innerHeight-side;
+    }
+    if (randomy < 0) {
+        randomy = 0;
+    }
+    if (randomx < 0) {
+        randomx = 0;
+    }
+    if (randomx + side > innerWidth) {
+        randomx = innerWidth - side;
+    }
+    
     // hit the target
     if (((smallX > x && smallX < (x + side)) || ((smallX + target) > x && smallX < (x + side))) && ((smallY > y && smallY < (y + side)) || ((smallY + target) > y && smallY < (y + side)))) {
         // make the target
@@ -189,7 +203,5 @@ function Animation() {
     else {
         window.requestAnimationFrame(Animation);
     }
-
 }
-
 starting();
