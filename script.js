@@ -74,14 +74,14 @@ function targetDisplay() {
 }
 
 function gameOver() {
-    
     //countttime stop;
     clearInterval(setcount);
-    
     sound.play();
     //display game over 
     remove();
     ctx.fillStyle = "#000000";
+    ctx.font='45px Arial';
+    ctx.fillText("Game Over!!" ,648,(innerHeight / 2)-55);
     ctx.font = '24px Arial';
     ctx.textAlign = 'center';
     ctx.fillText("Red score is:" + Score, innerWidth / 2, innerHeight / 2);
