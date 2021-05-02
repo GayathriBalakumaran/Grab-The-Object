@@ -12,6 +12,7 @@ var startAngle = 0;
 var endAngle = Math.PI * 2;
 var speed = 15;
 var side = 50;
+var workdone = true;
 
 // random ball
 var randomx = 1100;
@@ -56,7 +57,6 @@ window.onkeydown = function (event) {
     if (key === 68) {//yellow right
         randomx += speed;
     }
-
 };
 
 function starting() {
@@ -74,8 +74,10 @@ function targetDisplay() {
 }
 
 function gameOver() {
+    
     //countttime stop;
     clearInterval(setcount);
+    
     sound.play();
     //display game over 
     remove();
@@ -90,7 +92,6 @@ function gameOver() {
     ctx.fillStyle = "green"
     ctx.fillText("Do you want to continue press (F5)", 679, (innerHeight / 2) + 98);
 }
-
 //clear the canvas 
 function remove() {
     var multicolor = ctx.createLinearGradient(0, 0, innerWidth, 0);
@@ -100,10 +101,21 @@ function remove() {
     ctx.fillStyle = multicolor;
     ctx.fillRect(0, 0, innerWidth, innerHeight);
 }
+function random() {
+    remove();
+    if (randomx > innerWidth - radius1 || randomx < radius1) {
+        rx = -rx;
+    }
+    if (randomy > innerHeight - radius1 || randomy < radius1) {
+        rx = -rx;
+    }
+    randomx = rx;
+    randomy = ry;
+}
 
 function Animation() {
     remove();
-    // red ball within the bounds 
+    // ball within the bounds 
     if (y + side > innerHeight) {
         y = innerHeight - side;
     }
@@ -116,6 +128,7 @@ function Animation() {
     if (x + side > innerWidth) {
         x = innerWidth - side;
     }
+
     //yellow ball within the bound
     if(randomy +side >innerHeight){
         randomy=innerHeight-side;
@@ -129,7 +142,6 @@ function Animation() {
     if (randomx + side > innerWidth) {
         randomx = innerWidth - side;
     }
-    
     // hit the target
     if (((smallX > x && smallX < (x + side)) || ((smallX + target) > x && smallX < (x + side))) && ((smallY > y && smallY < (y + side)) || ((smallY + target) > y && smallY < (y + side)))) {
         // make the target
@@ -145,12 +157,11 @@ function Animation() {
         targetDisplay();
         ScoreRandom = ScoreRandom + 1;
     }
-    // if(((randomx>x && randomX<(x+side)) || ((randomx+target)>x && randomx<(x+side))) && ((randomy>y && randomy<(y+side)) || ))
     if (((randomx > x && randomx < (x + side)) || ((randomx + target) > x && randomx < (x + side))) && ((randomy > y && randomy < (y + side)) || ((randomy + target) > y && randomy < (y + side)))) {
         sound3.play();
-        alert("game over");
-        gameOver();
+        workdone = false;       
     }
+
     //hit the danger square
     if (counttime % 5 === 0) {
         //danger square
@@ -158,14 +169,13 @@ function Animation() {
         var dangerY = 90;
         var sqr = 25;
         if (((dangerX > x && dangerX < (x + side)) || ((dangerX + sqr) > x && dangerX < (x + side))) && ((dangerY > y && dangerY < (y + side)) || ((dangerY + sqr) > y && dangerY < (y + side)))) {
-            alert("red ball touch the danger!");
-            gameOver();
+            workdone=false;
         }
-        if (((dangerX > randomx && dangerX < (randomx + side)) || ((dangerX + sqr) > randomx && dangerX < (randomx + side))) && ((dangerY > randomy && dangerY < (randomy + side)) || ((dangerY + sqr) > y && dangerY < (randomy + side)))) {
-            alert("yellow ball touch the danger!");
-            gameOver();
+        if (((dangerX > randomx && dangerX < (randomx + side)) || ((dangerX + sqr) > x && dangerX < (randomx + side))) && ((dangerY > randomy && dangerY < (randomy + side)) || ((dangerY + sqr) > y && dangerY < (randomy + side)))) {
+            workdone=false;
         }
     }
+
     //ball
     ctx.beginPath();
     ctx.fillStyle = "red";
@@ -191,17 +201,21 @@ function Animation() {
     // display the sqare and countdown
     ctx.fillStyle = "black";
     ctx.font = '34px Arial';
-    ctx.fillText('Goal Red: ' + Score, 30, 54);
+    ctx.fillText('Goal Red: ' + Score, 100, 54);
     ctx.fillText('Goal Yellow:' + ScoreRandom, 990, 54);    
     ctx.fillText('Time count: ' + counttime, 490, 54);
     ctx.font='11px Arial'
     ctx.fillText('up:W   down:X   left:A   right:D',1000,70);
-    ctx.fillText('use Arrow key to move redball',50,70)
+    ctx.fillText('use Arrow key to move redball',100,70)
+    
     if (counttime <= 0) {
         gameOver();
     }
     else {
         window.requestAnimationFrame(Animation);
+        if(!workdone){
+            gameOver();
+        }
     }
 }
 starting();
