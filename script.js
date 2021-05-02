@@ -12,7 +12,7 @@ var startAngle = 0;
 var endAngle = Math.PI * 2;
 var speed = 15;
 var side = 50;
-var workdone = true;
+var over = true;
 
 // random ball
 var randomx = 1100;
@@ -159,7 +159,7 @@ function Animation() {
     }
     if (((randomx > x && randomx < (x + side)) || ((randomx + target) > x && randomx < (x + side))) && ((randomy > y && randomy < (y + side)) || ((randomy + target) > y && randomy < (y + side)))) {
         sound3.play();
-        workdone = false;       
+        over = false;       
     }
 
     //hit the danger square
@@ -169,10 +169,10 @@ function Animation() {
         var dangerY = 90;
         var sqr = 25;
         if (((dangerX > x && dangerX < (x + side)) || ((dangerX + sqr) > x && dangerX < (x + side))) && ((dangerY > y && dangerY < (y + side)) || ((dangerY + sqr) > y && dangerY < (y + side)))) {
-            workdone=false;
+            over=false;
         }
         if (((dangerX > randomx && dangerX < (randomx + side)) || ((dangerX + sqr) > x && dangerX < (randomx + side))) && ((dangerY > randomy && dangerY < (randomy + side)) || ((dangerY + sqr) > y && dangerY < (randomy + side)))) {
-            workdone=false;
+            over=false;
         }
     }
 
@@ -207,15 +207,14 @@ function Animation() {
     ctx.font='11px Arial'
     ctx.fillText('up:W   down:X   left:A   right:D',1000,70);
     ctx.fillText('use Arrow key to move redball',100,70)
-    
+    if(!over){
+        gameOver();
+    }
     if (counttime <= 0) {
         gameOver();
     }
     else {
-        window.requestAnimationFrame(Animation);
-        if(!workdone){
-            gameOver();
-        }
+        window.requestAnimationFrame(Animation);  
     }
 }
 starting();
