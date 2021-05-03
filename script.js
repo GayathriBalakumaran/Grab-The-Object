@@ -169,7 +169,6 @@ function Animation() {
         sound3.play();
         over = false;
     }
-
     //hit the yellow square
     if (((Syellowx > x && Syellowx < (x + side)) || ((Syellowx + sqr) > x && Syellowx < (x + side))) && ((Syellowy > y && Syellowy < (y + side)) || ((Syellowy + sqr) > y && Syellowy < (y + side)))) {
        Score=Score+2;
