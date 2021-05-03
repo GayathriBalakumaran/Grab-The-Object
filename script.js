@@ -110,18 +110,6 @@ function remove() {
     ctx.fillStyle = multicolor;
     ctx.fillRect(0, 0, innerWidth, innerHeight);
 }
-function random() {
-    remove();
-    if (yellowX > innerWidth - radius1 || yellowX < radius1) {
-        rx = -rx;
-    }
-    if (yellowY > innerHeight - radius1 || yellowY < radius1) {
-        rx = -rx;
-    }
-    yellowX = rx;
-    yellowY = ry;
-}
-
 function Animation() {
     remove();
     // ball within the bounds 
