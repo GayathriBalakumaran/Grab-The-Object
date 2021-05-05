@@ -176,11 +176,11 @@ function targetDisplay() {
         if (((smallX > yellowX && smallX < (yellowX + side)) || ((smallX + target) > yellowX && smallX < (yellowX + side))) && ((smallY > yellowY && smallY < (yellowY + side)) || ((smallY + target) > yellowY && smallY < (yellowY + side)))) {
             sound2.play();
             targetDisplay();
-            ScoreRandom = ScoreRandom + 2;
+            ScoreRandom = ScoreRandom - 2;
         }
         //hit the yellow square and red Square
         if (((Syellowx > x && Syellowx < (x + side)) || ((Syellowx + sqr) > x && Syellowx < (x + side))) && ((Syellowy > y && Syellowy < (y + side)) || ((Syellowy + sqr) > y && Syellowy < (y + side)))) {
-            Score = Score + 2;
+            Score = Score - 2;
             sound1.play();
             yellowDisplay();
         }
