@@ -20,6 +20,7 @@ var yellowY = 300;
 var radius1 = 30;
 var ScoreRandom = 0;
 
+//yellow Square 
 var Syellowx = 500;
 var Syellowy = 90;
 var sqr = 25;
@@ -34,6 +35,7 @@ var sound1 = new Audio('mixkit-unlock-game-notification-253.wav');
 var sound2 = new Audio('mixkit-arcade-retro-changing-tab-206.wav');
 var sound3 = new Audio('mixkit-game-notification-wave-alarm-987.wav');
 
+//Danger rectangle drawing
 var dangerX = [200, 490, 850];
 var dangerY = [0, 340, 0];
 
