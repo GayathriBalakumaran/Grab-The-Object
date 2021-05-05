@@ -35,8 +35,8 @@ var sound1 = new Audio('mixkit-unlock-game-notification-253.wav');
 var sound2 = new Audio('mixkit-arcade-retro-changing-tab-206.wav');
 var sound3 = new Audio('mixkit-game-notification-wave-alarm-987.wav');
 
-var dangerX = [-100, 70, 250, 490, 690, 950, -80];
-var dangerY = [0, 358, 0, 358, 0, 358, 0, 358];
+var dangerX = [-100, 70, 250, 490, 690, 950, -80, 1100];
+var dangerY = [0, 358, 0, 358, 0, 358, 0,  0];
 
 var danwidth = 40;
 var danheight = 220;
@@ -87,15 +87,15 @@ function starting() {
 
 //display red suare random
 function targetDisplay() {
-        smallX = Math.round(Math.random() * innerWidth - target);
-        smallY = Math.round(Math.random() * innerHeight - target);
+    smallX = Math.round(Math.random() * innerWidth - target);
+    smallY = Math.round(Math.random() * innerHeight - target);
 }
 
 //display yellow square random
 function yellowDisplay() {
-        Syellowx = Math.round(Math.random() * innerWidth - target);
-        Syellowy = Math.round(Math.random() * innerHeight - target);
-    }
+    Syellowx = Math.round(Math.random() * innerWidth - target);
+    Syellowy = Math.round(Math.random() * innerHeight - target);
+}
 
 function gameOver() {
     //countttime stop;
@@ -117,7 +117,7 @@ function gameOver() {
     ctx.font = '45px Arial';
     ctx.fillText("Game Over!!", 648, (innerHeight / 2) - 55);
 }
-var touch=false;
+var touch = false;
 
 function Animation() {
     ctx.clearRect(0, 0, innerWidth, innerHeight);
@@ -134,14 +134,14 @@ function Animation() {
     if (x + side > innerWidth) {
         x = innerWidth - side;
     }
-    dangerX[1] = dangerX[1] + bounce;
-    dangerX[2] = dangerX[2] + bounce;
-    dangerX[0] = dangerX[0] + bounce;
-    dangerX[3] = dangerX[3] + bounce;
-    dangerX[4] = dangerX[4] + bounce;
-    dangerX[5] = dangerX[5] + bounce;
-    dangerX[6] = dangerX[6] + bounce;
-    if (dangerX[5] > canvas.width) {//[-100, 70, 250, 490, 690, 950, -80];
+
+    //move the rectangles to left to right
+    for (z in dangerX) {
+        dangerX[z] = dangerX[z] + bounce;
+    }
+
+    //rectangle will be restart left to right. 
+    if (dangerX[7] > canvas.width) {
         dangerX[0] = -100;
         dangerX[1] = 70;
         dangerX[2] = 250;
@@ -149,6 +149,7 @@ function Animation() {
         dangerX[4] = 690;
         dangerX[5] = 950;
         dangerX[6] = -80;
+        dangerX[7] = 1100;
 
     }
 
@@ -185,53 +186,58 @@ function Animation() {
         sound1.play();
         yellowDisplay();
     }
+    //yellow ball hit the yellow Square
     if (((Syellowx > yellowX && Syellowx < (yellowX + side)) || ((Syellowx + sqr) > yellowX && Syellowx < (yellowX + side))) && ((Syellowy > yellowY && Syellowy < (yellowY + side)) || ((Syellowy + sqr) > yellowY && Syellowy < (yellowY + side)))) {
         sound2.play();
         ScoreRandom = ScoreRandom + 1;
         radius1 = radius1 + 5;
         yellowDisplay();
-        
-    }
 
+    }
+    //yellow ball hit the red ball
     if (((yellowX > x && yellowX < (x + side)) || ((yellowX + target) > x && yellowX < (x + side))) && ((yellowY > y && yellowY < (y + side)) || ((yellowY + target) > y && yellowY < (y + side)))) {
         sound3.play();
         over = false;
     }
-
+    //dangerRectangle collision
     for (i in dangerX) {
+        //red ball collision with retangle..
         if (((dangerX[i] > x && dangerX[i] < (x + side)) || ((dangerX[i] + danwidth) > x && dangerX[i] < (x + side))) && ((dangerY[i] > y && dangerY[i] < (y + side)) || ((dangerY[i] + danheight) > y && dangerY[i] < (y + side)))) {
-            x = 55;
+            x = 55;//red ball Will go back to where it started
             y = 300;
             radius = 40;
-            if (Score < 5) {
+            if (Score < 5) {//when red ball Score for red is lesser than five the Score become 0
                 Score = 0;
             }
-            else {
+            else {//when red ball Score is greater than five the Score of red will be decrese by 5
                 Score = Score - 5;
             }
         }
+        //yellow ball collition with rectangle
         if (((dangerX[i] > yellowX && dangerX[i] < (yellowX + side)) || ((dangerX[i] + danwidth) > yellowX && dangerX[i] < (yellowX + side))) && ((dangerY[i] > yellowY && dangerY[i] < (yellowY + side)) || ((dangerY[i] + danheight) > yellowY && dangerY[i] < (yellowY + side)))) {
-            yellowX = 1100;
+            yellowX = 1100;//yellow ball Will go back to where it started 
             yellowY = 300;
             radius = 40;
-            touch=true;
-            if (ScoreRandom < 5) {
+            touch = true;
+            if (ScoreRandom < 5) {//when yellow ball Score is lesser than five the Score is 0
                 ScoreRandom = 0;
             }
-            else {
+            else {//when the yellow ball Score is greater than five the Score will be decrese by 5 
                 ScoreRandom = ScoreRandom - 5;
             }
         }
     }
+    //call draw rectangle function 
     drawRect(dangerX[0], dangerY[0], danwidth, danheight);
     drawRect(dangerX[1], dangerY[1], danwidth, danheight);
     drawRect(dangerX[2], dangerY[2], danwidth, danheight);
     drawRect(dangerX[3], dangerY[3], danwidth, danheight);
     drawRect(dangerX[4], dangerY[4], danwidth, danheight);
     drawRect(dangerX[5], dangerY[5], danwidth, danheight);
-    // drawRect(dangerX[6], dangerY[6], danwidth, danheight);
+    drawRect(dangerX[6], dangerY[6], danwidth, danheight);
+    drawRect(dangerX[7], dangerY[7], danwidth, danheight);
 
-    //ball
+    //draw a red ball
     ctx.beginPath();
     ctx.fillStyle = "red";
     ctx.arc(x, y, radius, startAngle, endAngle);
@@ -242,34 +248,38 @@ function Animation() {
     ctx.fillStyle = "red";
     ctx.fillRect(smallX, smallY, target, target);
 
-    //random ball
+    //yellow ball
     ctx.beginPath();
     ctx.fillStyle = "yellow";
     ctx.arc(yellowX, yellowY, radius1, 0, Math.PI * 2);
     ctx.fill();
     ctx.stroke();
 
-    //danger square
+    //yellow square
     ctx.fillStyle = "yellow";
     ctx.fillRect(Syellowx, Syellowy, sqr, sqr);
 
     // display the sqare and countdown
     ctx.fillStyle = "white";
     ctx.font = '34px Arial';
-    ctx.fillText('Goal Red: ' + Score, 100, 70);
-    ctx.fillText('Goal Yellow:' + ScoreRandom, 990, 70);
-    ctx.fillText('Time count: ' + counttime, 490, 70);
+    ctx.fillText('Goal Red: ' + Score, 85, 95);
+    ctx.fillText('Goal Yellow:' + ScoreRandom, 995, 95);
+    ctx.fillText('Time count: ' + counttime, 495, 85);
     ctx.font = '11px Arial'
-    ctx.fillText('up:W   down:X   left:A   right:D', 1000, 86);
-    ctx.fillText('use Arrow key to move redball', 100, 86);
+    ctx.fillText('up:W   down:X   left:A   right:D', 999, 105);
+    ctx.fillText('use Arrow key to move redball', 99, 107);
+    //when two ball collision game is over
     if (!over) {
         gameOver();
     }
+    //when counttime comes to zero game is over
     if (counttime <= 0) {
         gameOver();
     }
+    //otherwise the loop function is to be continued
     else {
         window.requestAnimationFrame(Animation);
     }
 }
+//start the game
 starting();
