@@ -220,6 +220,7 @@ function Animation() {
             x = 55;
             y = 300;
             radius = 30;
+            sound4.play();
             if (Score < 2) {//when red ball Score for red is lesser than five the Score become 0
                 Score = 0;
             }
@@ -232,7 +233,7 @@ function Animation() {
             yellowX = 1100;
             yellowY = 300;
             radius = 30;
-            touch = true;
+            sound4.play();
             if (ScoreRandom < 2) {//when yellow ball Score is lesser than five the Score is 0
                 ScoreRandom = 0;
             }
