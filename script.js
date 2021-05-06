@@ -34,6 +34,7 @@ var sound = new Audio('mixkit-small-crowd-clapping-3035.wav');
 var sound1 = new Audio('mixkit-unlock-game-notification-253.wav');
 var sound2 = new Audio('mixkit-arcade-retro-changing-tab-206.wav');
 var sound3 = new Audio('mixkit-game-notification-wave-alarm-987.wav');
+var sound4=new Audio('mixkit-arcade-mechanical-bling-210.wav');//rectangle hit the ball
 
 var dangerX = [-100, 70, 250, 490, 690, 950, -80, 1100];
 var dangerY = [0, 375, 0, 375, 0, 375, 0, 0];
