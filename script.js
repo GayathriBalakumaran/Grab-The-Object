@@ -103,6 +103,20 @@ function gameOver() {
     sound.play();
     //display game over 
     ctx.clearRect(0, 0, innerWidth, innerHeight);
+    ctx.font = '37px Arial';
+    ctx.textAlign = 'center';
+    if (Score > ScoreRandom) {
+        ctx.fillStyle = "Red";
+        ctx.fillText("red  Won  the  Match", 640, 160);
+    }
+    else if (Score < ScoreRandom) {
+        ctx.fillStyle = "yellow";
+        ctx.fillText("Yellow  Won  the  Match", 640, 160);
+    }
+    else{
+        ctx.fillStyle = "#7fff00";
+        ctx.fillText("Match  draw'-'", 643, 160);
+    }
     ctx.fillStyle = "white";
     ctx.font = '24px Arial';
     ctx.textAlign = 'center';
