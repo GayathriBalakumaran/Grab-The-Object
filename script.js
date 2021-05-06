@@ -36,10 +36,10 @@ var sound2 = new Audio('mixkit-arcade-retro-changing-tab-206.wav');
 var sound3 = new Audio('mixkit-game-notification-wave-alarm-987.wav');
 
 var dangerX = [-100, 70, 250, 490, 690, 950, -80, 1100];
-var dangerY = [0, 358, 0, 358, 0, 358, 0, 0];
+var dangerY = [0, 375, 0, 375, 0, 375, 0, 0];
 
 var danwidth = 40;
-var danheight = 220;
+var danheight = 200;
 function drawRect(dangerX, dangerY, danwidth, danheight) {
     //draw rectangle
     ctx.fillStyle = "blue";
@@ -111,7 +111,7 @@ function gameOver() {
     ctx.fillStyle = 'white';
     ctx.fillText('yellow Score is: ' + ScoreRandom, 648, (innerHeight / 2) + 50);
     ctx.font = "20px Arial";
-    ctx.fillStyle = "green"
+    ctx.fillStyle = "aqua"
     ctx.fillText("Do you want to continue press (F5)", 670, (innerHeight / 2) + 98);
     ctx.fillStyle = "white";
     ctx.font = '45px Arial';
