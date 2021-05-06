@@ -108,15 +108,15 @@ function gameOver() {
     ctx.textAlign = 'center';
     if (Score > ScoreRandom) {
         ctx.fillStyle = "Red";
-        ctx.fillText("red  Won  the  Match", 640, 160);
+        ctx.fillText("Red  Won  The  Match", 640, 160);
     }
     else if (Score < ScoreRandom) {
         ctx.fillStyle = "yellow";
-        ctx.fillText("Yellow  Won  the  Match", 640, 160);
+        ctx.fillText("Yellow  Won  The  Match", 640, 160);
     }
     else{
         ctx.fillStyle = "#7fff00";
-        ctx.fillText("Match  draw'-'", 643, 160);
+        ctx.fillText("Match  Draw'-'", 643, 160);
     }
     ctx.fillStyle = "white";
     ctx.font = '24px Arial';
@@ -124,7 +124,7 @@ function gameOver() {
     ctx.fillText("Red score is:" + Score, innerWidth / 2, innerHeight / 2);
     ctx.font = '24x Arial';
     ctx.fillStyle = 'white';
-    ctx.fillText('yellow Score is: ' + ScoreRandom, 648, (innerHeight / 2) + 50);
+    ctx.fillText('Yellow Score is: ' + ScoreRandom, 648, (innerHeight / 2) + 50);
     ctx.font = "20px Arial";
     ctx.fillStyle = "aqua"
     ctx.fillText("Do you want to continue press (F5)", 670, (innerHeight / 2) + 98);
