@@ -15,13 +15,13 @@ var side = 50;
 var over = true;
 
 // random ball
-var yellowX = 1100;
-var yellowY = 300;
+var yellowballX = 1100;
+var yellowballY = 300;
 var radius1 = 30;
 var ScoreRandom = 0;
 
-var Syellowx = 0;
-var Syellowy = 0;
+var sqryellowx = 0;
+var Syellowbally = 0;
 var sqr = 25;
 var move = 0.9;
 
@@ -34,7 +34,7 @@ var sound = new Audio('mixkit-small-crowd-clapping-3035.wav');
 var sound1 = new Audio('mixkit-unlock-game-notification-253.wav');
 var sound2 = new Audio('mixkit-arcade-retro-changing-tab-206.wav');
 var sound3 = new Audio('mixkit-game-notification-wave-alarm-987.wav');
-var sound4=new Audio('mixkit-arcade-mechanical-bling-210.wav');//rectangle hit the ball
+var sound4 = new Audio('mixkit-arcade-mechanical-bling-210.wav');//rectangle hit the ball
 
 var dangerX = [-100, 70, 250, 490, 690, 950, -80, 1100];
 var dangerY = [0, 375, 0, 375, 0, 375, 0, 0];
@@ -47,55 +47,60 @@ function drawRect(dangerX, dangerY, danwidth, danheight) {
     ctx.fillRect(dangerX, dangerY, danwidth, danheight);
 }
 
-//move the Ball
-window.onkeydown = function (event) {
-    var key = event.keyCode;
-    if (key === 40) { //red DOWN
+//move red the Ball
+document.addEventListener("keydown", (e) => {
+    var key=e.key;
+    if (key === "ArrowDown") { //red DOWN
         y += speed;
     }
-    if (key === 38) { // red UP
+    if (key === "ArrowUp") { // red UP
         y -= speed;
     }
-    if (key === 37) { // red LEFT
+    if (key === "ArrowLeft") { // red LEFT
         x -= speed;
     }
-    if (key === 39) { // red RIGHT
+    if (key === "ArrowRight") { // red RIGHT
         x += speed;
     }
-    if (key === 65) {// yellow left
-        yellowX -= speed;
+});
+
+//move yellow the Ball
+document.addEventListener("keypress", (e) => {
+    var key=e.key;
+    if (key === "a") {// yellow left
+        yellowballX -= speed;
     }
-    if (key === 87) {// yellow up
-        yellowY -= speed;
+    if (key === "w") {// yellow up
+        yellowballY -= speed;
     }
-    if (key === 88) {// yellow down
-        yellowY += speed;
+    if (key === "x") {// yellow down
+        yellowballY += speed;
     }
-    if (key === 68) {//yellow right
-        yellowX += speed;
+    if (key === "d") {//yellow right
+        yellowballX += speed;
     }
-};
+});
 
 function starting() {
     // Reduce the countdown timer ever two second
     setcount = setInterval(function () { counttime--; }, 2000);
     // Put the target at a random 
-    targetDisplay();
-    yellowDisplay();
-    // Kick off the Animation loop
-    Animation();
+    redtargetDisplay();
+    yellowtargetDisplay();
+    // Kick off the animation loop
+    animation();
 }
 
 //display red suare random
-function targetDisplay() {
+function redtargetDisplay() {
     smallX = Math.round(Math.random() * innerWidth - target);
     smallY = Math.round(Math.random() * innerHeight - target);
 }
 
 //display yellow square random
-function yellowDisplay() {
-    Syellowx = Math.round(Math.random() * innerWidth - target);
-    Syellowy = Math.round(Math.random() * innerHeight - target);
+function yellowtargetDisplay() {
+    sqryellowx = Math.round(Math.random() * innerWidth - target);
+    Syellowbally = Math.round(Math.random() * innerHeight - target);
 }
 
 function gameOver() {
@@ -114,7 +119,7 @@ function gameOver() {
         ctx.fillStyle = "yellow";
         ctx.fillText("Yellow  Won  The  Match", 640, 160);
     }
-    else{
+    else {
         ctx.fillStyle = "#7fff00";
         ctx.fillText("Match  Draw'-'", 643, 160);
     }
@@ -132,85 +137,26 @@ function gameOver() {
     ctx.font = '45px Arial';
     ctx.fillText("Game Over!!", 648, (innerHeight / 2) - 55);
 }
-var touch = false;
 
-function Animation() {
-    ctx.clearRect(0, 0, innerWidth, innerHeight);
-    // ball within the bounds 
-    if (y + side > innerHeight) {
-        y = innerHeight - side;
-    }
-    if (y < 0) {
-        y = 0;
-    }
-    if (x < 0) {
-        x = 0;
-    }
-    if (x + side > innerWidth) {
-        x = innerWidth - side;
-    }
-
-    //move the rectangles to left to right
-    for (z in dangerX) {
-        dangerX[z] = dangerX[z] + move;
-    }
-
-    //rectangle will be restart left to right. 
-    if (dangerX[5] > canvas.width) {
-        dangerX[0] = -100;
-        dangerX[1] = 70;
-        dangerX[2] = 250;
-        dangerX[3] = 490;
-        dangerX[4] = 690;
-        dangerX[5] = 950;
-        dangerX[6] = -80;
-        dangerX[7] = 1100;
-
-    }
-
-    //yellow ball within the bound
-    if (yellowY + side > innerHeight) {
-        yellowY = innerHeight - side;
-    }
-    if (yellowY < 0) {
-        yellowY = 0;
-    }
-    if (yellowX < 0) {
-        yellowX = 0;
-    }
-    if (yellowX + side > innerWidth) {
-        yellowX = innerWidth - side;
-    }
-    // hit the target
+//red ball is dashing targets(square), moving rectangle and yellow ball
+function redBallhits() {
+    // red ball hit the target
     if (((smallX > x && smallX < (x + side)) || ((smallX + target) > x && smallX < (x + side))) && ((smallY > y && smallY < (y + side)) || ((smallY + target) > y && smallY < (y + side)))) {
         // make the target
-        targetDisplay();
+        redtargetDisplay();
         sound1.play();
         radius = radius + 5;
         //Score increasing.
         Score++;
     }
-    if (((smallX > yellowX && smallX < (yellowX + side)) || ((smallX + target) > yellowX && smallX < (yellowX + side))) && ((smallY > yellowY && smallY < (yellowY + side)) || ((smallY + target) > yellowY && smallY < (yellowY + side)))) {
-        sound2.play();
-        targetDisplay();
-        ScoreRandom = ScoreRandom + 2;
-    }
-    //hit the yellow square and red Square
-    if (((Syellowx > x && Syellowx < (x + side)) || ((Syellowx + sqr) > x && Syellowx < (x + side))) && ((Syellowy > y && Syellowy < (y + side)) || ((Syellowy + sqr) > y && Syellowy < (y + side)))) {
+    //redball hits the yellowsquare
+    if (((sqryellowx > x && sqryellowx < (x + side)) || ((sqryellowx + sqr) > x && sqryellowx < (x + side))) && ((Syellowbally > y && Syellowbally < (y + side)) || ((Syellowbally + sqr) > y && Syellowbally < (y + side)))) {
         Score = Score + 2;
         sound1.play();
-        yellowDisplay();
+        yellowtargetDisplay();
     }
-    //yellow ball hit the yellow Square
-    if (((Syellowx > yellowX && Syellowx < (yellowX + side)) || ((Syellowx + sqr) > yellowX && Syellowx < (yellowX + side))) && ((Syellowy > yellowY && Syellowy < (yellowY + side)) || ((Syellowy + sqr) > yellowY && Syellowy < (yellowY + side)))) {
-        sound2.play();
-        ScoreRandom = ScoreRandom + 1;
-        radius1 = radius1 + 5;
-        yellowDisplay();
-
-    }
-    //yellow ball hit the red ball
-    if (((yellowX > x && yellowX < (x + side)) || ((yellowX + target) > x && yellowX < (x + side))) && ((yellowY > y && yellowY < (y + side)) || ((yellowY + target) > y && yellowY < (y + side)))) {
+    //yellow ball and red ball collision
+    if (((yellowballX > x && yellowballX < (x + side)) || ((yellowballX + target) > x && yellowballX < (x + side))) && ((yellowballY > y && yellowballY < (y + side)) || ((yellowballY + target) > y && yellowballY < (y + side)))) {
         sound3.play();
         over = false;
     }
@@ -229,11 +175,31 @@ function Animation() {
                 Score = Score - 2;
             }
         }
+    }
+}
+//yellow ball is dashing targets(square), moving rectangle and red ball
+function yellowBallhits() {
+    //yello ball hits the red Square
+    if (((smallX > yellowballX && smallX < (yellowballX + side)) || ((smallX + target) > yellowballX && smallX < (yellowballX + side))) && ((smallY > yellowballY && smallY < (yellowballY + side)) || ((smallY + target) > yellowballY && smallY < (yellowballY + side)))) {
+        sound2.play();
+        redtargetDisplay();
+        ScoreRandom = ScoreRandom + 2;
+    }
+
+    //yellow ball hit the yellow Square
+    if (((sqryellowx > yellowballX && sqryellowx < (yellowballX + side)) || ((sqryellowx + sqr) > yellowballX && sqryellowx < (yellowballX + side))) && ((Syellowbally > yellowballY && Syellowbally < (yellowballY + side)) || ((Syellowbally + sqr) > yellowballY && Syellowbally < (yellowballY + side)))) {
+        sound2.play();
+        ScoreRandom = ScoreRandom + 1;
+        radius1 = radius1 + 5;
+        yellowtargetDisplay();
+
+    }
+    for (i in dangerX) {
         //yellow ball collition with rectangle
-        if (((dangerX[i] > yellowX && dangerX[i] < (yellowX + side)) || ((dangerX[i] + danwidth) > yellowX && dangerX[i] < (yellowX + side))) && ((dangerY[i] > yellowY && dangerY[i] < (yellowY + side)) || ((dangerY[i] + danheight) > yellowY && dangerY[i] < (yellowY + side)))) {
-            yellowX = 1100;
-            yellowY = 300;
-            radius = 30;
+        if (((dangerX[i] > yellowballX && dangerX[i] < (yellowballX + side)) || ((dangerX[i] + danwidth) > yellowballX && dangerX[i] < (yellowballX + side))) && ((dangerY[i] > yellowballY && dangerY[i] < (yellowballY + side)) || ((dangerY[i] + danheight) > yellowballY && dangerY[i] < (yellowballY + side)))) {
+            yellowballX = 1100;
+            yellowballY = 300;
+            radius1 = 30;
             sound4.play();
             if (ScoreRandom < 2) {//when yellow ball Score is lesser than five the Score is 0
                 ScoreRandom = 0;
@@ -243,6 +209,39 @@ function Animation() {
             }
         }
     }
+}
+//red ball and yellow ball within the bound
+function boundary() {
+    // red ball within the bounds 
+    if (y + side > innerHeight) {
+        y = innerHeight - side;
+    }
+    if (y < 0) {
+        y = 0;
+    }
+    if (x < 0) {
+        x = 0;
+    }
+    if (x + side > innerWidth) {
+        x = innerWidth - side;
+    }
+    //yellow ball within the bound
+    if (yellowballY + side > innerHeight) {
+        yellowballY = innerHeight - side;
+    }
+    if (yellowballY < 0) {
+        yellowballY = 0;
+    }
+    if (yellowballX < 0) {
+        yellowballX = 0;
+    }
+    if (yellowballX + side > innerWidth) {
+        yellowballX = innerWidth - side;
+    }
+}
+
+//move the
+function movingRectangle() {
     //call the rectangle function 
     drawRect(dangerX[0], dangerY[0], danwidth, danheight);
     drawRect(dangerX[1], dangerY[1], danwidth, danheight);
@@ -253,6 +252,43 @@ function Animation() {
     drawRect(dangerX[6], dangerY[6], danwidth, danheight);
     drawRect(dangerX[7], dangerY[7], danwidth, danheight);
 
+    //rectangle will be restart left to right. 
+    if (dangerX[5] > canvas.width) {
+        dangerX[0] = -100;
+        dangerX[1] = 70;
+        dangerX[2] = 250;
+        dangerX[3] = 490;
+        dangerX[4] = 690;
+        dangerX[5] = 950;
+        dangerX[6] = -80;
+        dangerX[7] = 1100;
+    }
+
+}
+//dispaly the score and timecount
+function scorecard() {
+    // display the square and countdown
+    ctx.fillStyle = "white";
+    ctx.font = '34px Arial';
+    ctx.fillText('Goal Red: ' + Score, 85, 95);
+    ctx.fillText('Goal Yellow:' + ScoreRandom, 995, 95);
+    ctx.fillText('Time count: ' + counttime, 495, 85);
+    ctx.font = '11px Arial'
+    ctx.fillText('up:W   down:X   left:A   right:D', 999, 105);
+    ctx.fillText('use Arrow key to move redball', 99, 107);
+}
+function animation() {
+    ctx.clearRect(0, 0, innerWidth, innerHeight);
+    //ball will be inside of the boundary till game is comes to end.
+    boundary();
+    //move the rectangles to left to right
+    for (z in dangerX) {
+        dangerX[z] = dangerX[z] + move;
+    }
+    redBallhits();//red ball is dashing targets(square), moving rectangle and yellow ball
+    yellowBallhits();//yellow ball is dashing targets(square), moving rectangle and red ball
+    movingRectangle();//move the rectangle right to left side
+    
     //draw a red ball
     ctx.beginPath();
     ctx.fillStyle = "red";
@@ -267,23 +303,14 @@ function Animation() {
     //random ball
     ctx.beginPath();
     ctx.fillStyle = "yellow";
-    ctx.arc(yellowX, yellowY, radius1, 0, Math.PI * 2);
+    ctx.arc(yellowballX, yellowballY, radius1, 0, Math.PI * 2);
     ctx.fill();
     ctx.stroke();
 
     //danger square
     ctx.fillStyle = "yellow";
-    ctx.fillRect(Syellowx, Syellowy, sqr, sqr);
-
-    // display the sqare and countdown
-    ctx.fillStyle = "white";
-    ctx.font = '34px Arial';
-    ctx.fillText('Goal Red: ' + Score, 85, 95);
-    ctx.fillText('Goal Yellow:' + ScoreRandom, 995, 95);
-    ctx.fillText('Time count: ' + counttime, 495, 85);
-    ctx.font = '11px Arial'
-    ctx.fillText('up:W   down:X   left:A   right:D', 999, 105);
-    ctx.fillText('use Arrow key to move redball', 99, 107);
+    ctx.fillRect(sqryellowx, Syellowbally, sqr, sqr);
+    scorecard();//display the score and timecount
     if (!over) {
         gameOver();
     }
@@ -291,7 +318,8 @@ function Animation() {
         gameOver();
     }
     else {
-        window.requestAnimationFrame(Animation);
+        window.requestAnimationFrame(animation);
     }
 }
+//start game
 starting();
